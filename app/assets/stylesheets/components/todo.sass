@@ -1,0 +1,53 @@
+.todo
+  width: 100%
+  min-height: 20px
+  border-radius: 10px
+  background-color: #ffffff
+  box-shadow: 0 4px 10px 0 rgba(201, 201, 201, 0.5)
+  border-left: 10px solid #ef8381
+  padding: 6px 6px 6px 8px
+  position: relative
+  cursor: pointer
+
+  &:hover
+    background-color: darken(#ffffff, 1%)
+
+  &.edit
+    position: relative
+    z-index: 20
+
+  .todo-content
+    input
+      border: none
+      font-size: 14px
+      font-weight: 400
+      color: #A2A2A2
+      width: calc(100% - 25px)
+      cursor: pointer
+      background-color: transparent
+
+      &:focus
+        outline: none
+
+      &.is-editing
+        background-color: white
+
+  .todo-remove
+    position: absolute
+    border-radius: 50%
+    border: 1px solid #D9D9D9
+    width: 16px
+    height: 16px
+    text-align: center
+    line-height: 12.5px
+    right: 10px
+    top: 8.5px
+    color: #D9D9D9
+    font-size: 14px
+    font-weight: bold
+    cursor: pointer
+
+    &:hover
+      color: darken(#D9D9D9, 10%)
+      border-color: darken(#D9D9D9, 10%)
+      background-color: lighten(#D9D9D9, 10%)
