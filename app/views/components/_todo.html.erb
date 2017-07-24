@@ -1,0 +1,45 @@
+<template id="todo-template">
+  <div class="todo">
+    <div class="todo-content" @click="editMode = true">
+      <input type="text"
+            :value="task.content"
+            :class="{ 'is-editing': editMode }"
+            @blur="editMode = false"
+            @keyup.enter="saveTask($event)">
+    </div>
+    <div class="todo-remove" @click="destroyTask">x</div>
+  </div>
+</template>
+
+<script>
+  Vue.component('todo', {
+    template: '#todo-template',
+
+    props: ['task'],
+
+    data: () => {
+      return {
+        editMode: false
+      }
+    },
+
+    methods: {
+      saveTask(e) {
+        let target = e.target
+        target.blur()
+
+        this.task.content = target.value
+        this.task.save(res => {
+          console.log(res)
+        })
+      },
+
+      destroyTask() {
+        this.task.destroy(res => {
+          if(res.status === 200)
+            this.$emit('deleted', this.task.id)
+        })
+      }
+    }
+  })
+</script>

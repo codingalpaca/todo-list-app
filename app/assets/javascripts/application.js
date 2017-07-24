@@ -12,6 +12,7 @@
 //
 //= require rails-ujs
 //= require axios/dist/axios.min.js
+//= require vue/dist/vue.js
 //= require_tree .
 
 let CSRFToken = document.getElementsByName('csrf-token')[0].getAttribute('content')

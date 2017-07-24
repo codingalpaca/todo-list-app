@@ -2,24 +2,64 @@
   <h1 class="title">Todo List</h1>
 
   <div class="columns is-multiline">
-    <% 6.times do %>
-      <div class="column is-20-percent">
-        <div class="todo">
-          <div class="todo-content">
-            <input type="text" value="這是模板">
-          </div>
-          <div class="todo-remove">x</div>
-        </div>
-      </div>
-    <% end %>
+    <div v-for="task in tasks" class="column is-20-percent">
+      <todo :task="task"
+            @deleted="removeTask"></todo>
+    </div>
 
     <div class="column is-20-percent">
       <div class="todo">
         <div class="todo-content">
-          <input type="text" placeholder="create new task ...">
+          <input type="text"
+                 placeholder="create new task ..."
+                @keyup.enter="createTask($event)">
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<%= render 'components/todo' %>
+<script>
+  let todoListApp = new Vue({
+    el: '#todo-list-app',
+
+    data: {
+      tasks: []
+    },
+
+    methods: {
+      removeTask(id) {
+        for(let i = 0; i < this.tasks.length; i++) {
+          if(this.tasks[i].id === id) {
+            this.tasks.splice(i, 1)
+            break
+          }
+        }
+      },
+
+      createTask(e) {
+        let target = e.target,
+            task = new Task({ content: target.value })
+
+        task.save(res => {
+          if(res.status === 200) {
+            this.tasks.push(new Task(res.data))
+            target.value = ''
+            target.blur()
+          }
+        })
+      }
+    },
+
+    created() {
+      axios.get('/api/tasks')
+        .then(res => {
+          res.data.forEach(task => {
+            this.tasks.push(new Task(task))
+          })
+        })
+    }
+  })
+</script>
 

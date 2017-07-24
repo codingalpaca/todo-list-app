@@ -1,6 +1,6 @@
 class Task {
-  constructor(content = '') {
-    this.content = content
+  constructor(taskParams = {}) {
+    Object.assign(this, taskParams)
   }
 
   save(callback) {
@@ -12,7 +12,7 @@ class Task {
 
   create(callback) {
     axios.post('/api/tasks', {
-      task: { content: this.content }
+      task: this
     })
       .then(res => {
         callback(res)
@@ -21,7 +21,7 @@ class Task {
 
   update(callback) {
     axios.patch(`/api/tasks/${this.id}`, {
-      task: { content: this.content }
+      task: this
     })
       .then(res => {
         callback(res)
